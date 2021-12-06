@@ -116,11 +116,35 @@ const checkStatusOfGame = (cell) => {
 
     checkWinningCells(winningCells);
 
+    //check vertically
+    winningCells = [cell];
+    rowToCheck = rowIndex;
+    colToCheck = colIndex - 1;
+    while (colToCheck >= 0) {
+        const cellToCheck = rows[rowToCheck][colToCheck];
+        if (getColorOfCell(cellToCheck) === color) {
+            winningCells.push(cellToCheck);
+            colToCheck--;
+        } else {
+            break;
+        }
+    }
+    colToCheck = colIndex + 1;
+    while (colToCheck <= 6) {
+        const cellToCheck = rows[rowToCheck][colToCheck]
+        if (getColorOfCell(cellToCheck) === color ){
+            winningCells.push(cellToCheck);
+            colToCheck++;
+        } else {
+            break;
+        }
+    }
 }
 
 
 //Event Handlers
 const handleCellMouseOver = (e) => {
+    if (!gameIsLive) return;
     const cell = e.target; 
     const [rowIndex, colIndex] = getCellLocation(cell);
     const topCell = topCells[colIndex];
@@ -134,6 +158,7 @@ const handleCellMouseOut = (e) => {
 };
 
 const handleCellClick = (e) => {
+    if (!gameIsLive) return;
     const cell = e.target;
     const [rowIndex, colIndex] = getCellLocation(cell);
     const openCell = getFirstOpenCellForColumn(colIndex)
@@ -141,12 +166,12 @@ const handleCellClick = (e) => {
     openCell.classList.add(yellowIsNext ? 'yellow' : 'red')
     // todo: check status of game
     checkStatusOfGame(openCell)
-
     yellowIsNext = !yellowIsNext
     clearColorFromTop(colIndex);
+    if (gameIsLive){
     const topCell = topCells[colIndex];
     topCell.classList.add(yellowIsNext ? 'yellow' : 'red')
-
+    }
 }
 
 
@@ -158,3 +183,16 @@ for (const row of rows) {
         cell.addEventListener('click', handleCellClick);
     }
 }
+
+resetButton.addEventListener('click', () => {
+    for (const row of rows) {
+        for (const cell of row) {
+            cell.classList.remove('red');
+            cell.classList.remove('yellow');
+            cell.classList.remove('win');
+        }
+    }
+    gameIsLive = true;
+    yellowIsNext = true;
+    statusSpan.textContent = ''
+})
