@@ -42,21 +42,43 @@ const getCellLocation = (cell) => {
     const classList = getClassListArray(cell);
     const rowClass = classList.find(className => className.includes('row'));
     const colClass = classList.find(className => className.includes('col'));
-    const rowIndex = rowClass[4]
-    const colIndex = colClass[4]
-    console.log(rowIndex, colIndex)
+    const rowIndex = rowClass[4];
+    const colIndex = colClass[4];
+    const rowNumber = parseInt(rowIndex,10);
+    const colNumber = parseInt(colIndex,10);
+    return [rowNumber, colNumber]
 }
+
+const getFirstOpenCell
 
 
 //Event Handlers
-const handleCellMouseover = (e) => {
+const handleCellMouseOver = (e) => {
     const cell = e.target; 
-    getCellLocation(cell);
+    const [rowIndex, colIndex] = getCellLocation(cell);
+    const topCell = topCells[colIndex];
+    topCell.classList.add(yellowIsNext ? 'yellow' : 'red')
 }; 
+
+const handleCellMouseOut = (e) => {
+    const cell = e.target;
+    const [rowIndex, colIndex] = getCellLocation(cell);
+    const topCell = topCells[colIndex];
+    topCell.classList.remove('yellow');
+    topCell.classList.remove('red');
+};
+
+const handleCellClick = (e) => {
+    const cell = e.target;
+
+}
+
 
 // Add Event listeners
 for (const row of rows) {
     for (const cell of row) {
-        cell.addEventListener('mouseover', handleCellMouseover);
+        cell.addEventListener('mouseover', handleCellMouseOver);
+        cell.addEventListener('mouseout', handleCellMouseOut);
+        cell.addEventListener('click', handleCellClick);
     }
 }
