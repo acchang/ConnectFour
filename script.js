@@ -49,7 +49,19 @@ const getCellLocation = (cell) => {
     return [rowNumber, colNumber]
 }
 
-const getFirstOpenCell
+const getFirstOpenCellForColumn = (colIndex) => {
+    const column = columns[colIndex];
+    const columnWithoutTop = column.slice(0,6);
+    
+    for (const cell of columnWithoutTop) {
+        const classList = getClassListArray(cell);
+        if (!classList.includes('yellow') && !classList.includes('red'))
+        {return cell;
+        }
+    }
+
+    return null
+};
 
 
 //Event Handlers
@@ -70,7 +82,12 @@ const handleCellMouseOut = (e) => {
 
 const handleCellClick = (e) => {
     const cell = e.target;
-
+    const [rowIndex, colIndex] = getCellLocation(cell);
+    const openCell = getFirstOpenCellForColumn(colIndex)
+    if (!openCell) return
+    openCell.classList.add(yellowIsNext ? 'yellow' : 'red')
+    // todo: check status of game
+    yellowIsNext = !yellowIsNext
 }
 
 
