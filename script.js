@@ -93,10 +93,10 @@ const checkStatusOfGame = (cell) => {
     //check horizontally
     let winningCells = [cell];
     let rowToCheck = rowIndex;
-    let colToCheck = colIndex -1;
-    while (colToCheck > 0) {
+    let colToCheck = colIndex - 1;
+    while (colToCheck >= 0) {
         const cellToCheck = rows[rowToCheck][colToCheck];
-        if (getColorOfCell(cellToCheck)) === color ) {
+        if (getColorOfCell(cellToCheck) === color) {
             winningCells.push(cellToCheck);
             colToCheck--;
         } else {
@@ -104,9 +104,9 @@ const checkStatusOfGame = (cell) => {
         }
     }
     colToCheck = colIndex + 1;
-    while (colToCheck > 6) {
+    while (colToCheck <= 6) {
         const cellToCheck = rows[rowToCheck][colToCheck]
-        if (getColorOfCell(cellToCheck))  === color ){
+        if (getColorOfCell(cellToCheck) === color ){
             winningCells.push(cellToCheck);
             colToCheck++;
         } else {
