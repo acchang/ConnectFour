@@ -76,13 +76,15 @@ const getColorOfCell = (cell) => {
 };
 
 const checkWinningCells = (cells) => { 
-    if (cells.length < 4) return;
+    if (cells.length < 4) return false;
 
         gameIsLive = false;
         for (const cell of cells){
             cell.classList.add('win');
         }
         statusSpan.textContent = `${yellowIsNext ? 'Yellow' : 'Red'} has won`
+
+        return true
 };
 
 const checkStatusOfGame = (cell) => {
@@ -114,31 +116,97 @@ const checkStatusOfGame = (cell) => {
         }
     }
 
-    checkWinningCells(winningCells);
+   let isWinningCombo = checkWinningCells(winningCells);
+   if (isWinningCombo) return
 
     //check vertically
     winningCells = [cell];
-    rowToCheck = rowIndex;
-    colToCheck = colIndex - 1;
-    while (colToCheck >= 0) {
+    rowToCheck = rowIndex - 1;
+    colToCheck = colIndex;
+    while (rowToCheck >= 0) {
         const cellToCheck = rows[rowToCheck][colToCheck];
         if (getColorOfCell(cellToCheck) === color) {
             winningCells.push(cellToCheck);
-            colToCheck--;
+            rowToCheck--;
         } else {
-            break;
+          break;
         }
     }
-    colToCheck = colIndex + 1;
-    while (colToCheck <= 6) {
+    rowToCheck = rowIndex + 1;
+    while (rowToCheck <= 5) {
         const cellToCheck = rows[rowToCheck][colToCheck]
         if (getColorOfCell(cellToCheck) === color ){
             winningCells.push(cellToCheck);
+            rowToCheck++;
+        } else {
+          break;
+        }
+    }
+
+   isWinningCombo = checkWinningCells(winningCells);
+   if (isWinningCombo) return
+
+    //check diagonally /
+    winningCells = [cell];
+    rowToCheck = rowIndex + 1;
+    colToCheck = colIndex - 1;
+    while (colToCheck >= 0 && rowToCheck <= 5) {
+        const cellToCheck = rows[rowToCheck][colToCheck];
+        if (getColorOfCell(cellToCheck) === color) {
+            winningCells.push(cellToCheck);
+            rowToCheck++;
+            colToCheck--;
+        } else {
+          break;
+        }
+    }
+    rowToCheck = rowIndex - 1;
+    colToCheck = colIndex + 1
+    while (colToCheck <= 6 && rowToCheck >= 0) {
+        const cellToCheck = rows[rowToCheck][colToCheck]
+        if (getColorOfCell(cellToCheck) === color ){
+            winningCells.push(cellToCheck);
+            rowToCheck--;
+            colToCheck++;
+        } else {
+          break;
+        }
+    }
+
+   isWinningCombo = checkWinningCells(winningCells);
+   if (isWinningCombo) return
+
+
+    //check diagonally \
+    winningCells = [cell];
+    rowToCheck = rowIndex - 1;
+    colToCheck = colIndex + 1;
+    while (colToCheck >= 0 && rowToCheck >= 0) {
+        const cellToCheck = rows[rowToCheck][colToCheck];
+        if (getColorOfCell(cellToCheck) === color) {
+            winningCells.push(cellToCheck);
+            rowToCheck--;
             colToCheck++;
         } else {
             break;
         }
     }
+    rowToCheck = rowIndex + 1;
+    colToCheck = colIndex - 1
+    while (colToCheck <= 6 && rowToCheck >= 5) {
+        const cellToCheck = rows[rowToCheck][colToCheck]
+        if (getColorOfCell(cellToCheck) === color ){
+            winningCells.push(cellToCheck);
+            rowToCheck++;
+            colToCheck--;
+        } else {
+            break;
+        }
+    }
+
+    isWinningCombo = checkWinningCells(winningCells);
+    if (isWinningCombo) return
+
 }
 
 
