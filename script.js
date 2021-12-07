@@ -207,6 +207,18 @@ const checkStatusOfGame = (cell) => {
     isWinningCombo = checkWinningCells(winningCells);
     if (isWinningCombo) return
 
+    //check to see if we have a tie
+    const rowsWithoutTop = rows.slice(0,6);
+    for (const row of rowsWithoutTop) {
+        for (const cell of row){
+            const classList = getClassListArray(cell)
+            if (!classList.includes('yellow') && !classList.includes('red')){
+            return
+            }
+        }
+    }
+    gameIsLive = false;
+    statusSpan.textContent = 'Game is a Tie!'
 }
 
 
