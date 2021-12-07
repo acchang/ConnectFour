@@ -180,25 +180,25 @@ const checkStatusOfGame = (cell) => {
     //check diagonally \
     winningCells = [cell];
     rowToCheck = rowIndex - 1;
-    colToCheck = colIndex + 1;
+    colToCheck = colIndex - 1;
     while (colToCheck >= 0 && rowToCheck >= 0) {
         const cellToCheck = rows[rowToCheck][colToCheck];
         if (getColorOfCell(cellToCheck) === color) {
             winningCells.push(cellToCheck);
             rowToCheck--;
-            colToCheck++;
+            colToCheck--;
         } else {
             break;
         }
     }
     rowToCheck = rowIndex + 1;
-    colToCheck = colIndex - 1
-    while (colToCheck <= 6 && rowToCheck >= 5) {
+    colToCheck = colIndex + 1
+    while (colToCheck <= 6 && rowToCheck <= 5) {
         const cellToCheck = rows[rowToCheck][colToCheck]
         if (getColorOfCell(cellToCheck) === color ){
             winningCells.push(cellToCheck);
             rowToCheck++;
-            colToCheck--;
+            colToCheck++;
         } else {
             break;
         }
