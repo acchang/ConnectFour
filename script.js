@@ -14,7 +14,6 @@ const column5 = [allCells[40], allCells[33], allCells[26], allCells[19], allCell
 const column6 = [allCells[41], allCells[34], allCells[27], allCells[20], allCells[13], allCells[6], topCells[6]];
 const columns = [column0, column1, column2, column3, column4, column5, column6];
 
-
 // rows
 const topRow = [topCells[0], topCells[1], topCells[2], topCells[3], topCells[4], topCells[5], topCells[6]];
 const row0 = [allCells[0], allCells[1], allCells[2], allCells[3], allCells[4], allCells[5], allCells[6]];
@@ -25,12 +24,9 @@ const row4 = [allCells[28], allCells[29], allCells[30], allCells[31], allCells[3
 const row5 = [allCells[35], allCells[36], allCells[37], allCells[38], allCells[39], allCells[40], allCells[41]];
 const rows = [row0, row1, row2, row3, row4, row5, topRow];
 
-
 // variables
 let gameIsLive = true;
 let yellowIsNext = true;
-
-
 
 //functions
 const getClassListArray = (cell) => {
