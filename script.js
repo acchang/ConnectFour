@@ -28,6 +28,10 @@ const rows = [row0, row1, row2, row3, row4, row5, topRow];
 let gameIsLive = true;
 let yellowIsNext = true;
 
+// add tie and won conditions
+let isNotTie = true;
+let isNotWon = true;
+
 //functions
 const getClassListArray = (cell) => {
     const classList = cell.classList;
@@ -78,6 +82,8 @@ const checkWinningCells = (cells) => {
         for (const cell of cells){
             cell.classList.add('win');
         }
+        //add:
+        isNotWon = false
         statusSpan.textContent = `${yellowIsNext ? 'Yellow' : 'Red'} has won`
 
         return true
@@ -209,6 +215,8 @@ const checkStatusOfGame = (cell) => {
         for (const cell of row){
             const classList = getClassListArray(cell)
             if (!classList.includes('yellow') && !classList.includes('red')){
+            // add tie condition
+                isNotTie = false;
             return
             }
         }
@@ -244,6 +252,7 @@ const handleCellClick = (e) => {
     checkStatusOfGame(openCell)
     yellowIsNext = !yellowIsNext
     clearColorFromTop(colIndex);
+    minimax()
     if (gameIsLive){
     const topCell = topCells[colIndex];
     topCell.classList.add(yellowIsNext ? 'yellow' : 'red')
@@ -271,4 +280,61 @@ resetButton.addEventListener('click', () => {
     gameIsLive = true;
     yellowIsNext = true;
     statusSpan.textContent = ''
-})
+});
+
+
+///////////////////////////////////////////////////////////////---------------
+
+
+function minimax() {
+    if (!isNotWon && yellowIsNext) {
+      return -10
+    } else if (!isNotWon && !yellowIsNext) {
+      return 10
+    } else if (!isNotTie) {
+      return 2
+    }
+
+    //swap
+    yellowIsNext = !yellowIsNext
+
+    if (!yellowIsNext) {
+    let bestScore = -10000; 
+    // for each column, get first open cellforColumn, score it; if no score then move on
+
+    //   var player2Choices = listParallelSpaces();
+    //   for (var i = 0; i < player2Choices.length; i++) {
+    //     playerOneTurn = false
+    //     var player2Pick = player2Choices[i];
+    //     console.log("Minimizer " + checkClass() + " picks " + player2Pick + " from " + player2Choices);
+    //     parallelBoard.splice(player2Pick, 1,TWO_CLASS);
+    //     var score = minimax(parallelBoard)
+    //     console.log("Minimizer " +  checkClass() +  " picked " + player2Pick + ", scores " + score)
+    //     parallelBoard.splice(player2Pick, 1, player2Pick);
+    //     if (score > bestScore) {
+    //       bestScore = score
+    //       console.log("Minimizer BEST for " + player2Pick + " is " + bestScore);}
+    //     }
+    return bestScore
+    }
+  
+    //  else {
+    //   let bestScore = 100000; 
+    //   var player1Choices = listParallelSpaces();
+  
+    //   for (var i = 0; i < player1Choices.length; i++) {
+    //     playerOneTurn = true
+    //     var player1Pick = player1Choices[i];
+    //     console.log("Maximizer " + checkClass() + " picks " + player1Pick + " from " + player1Choices);
+    //     parallelBoard.splice(player1Pick, 1,ONE_CLASS);
+    //     var score = minimax(parallelBoard)
+    //     console.log("Maximizer " +  checkClass() +  " picked " + player1Pick + ", scores " + score)
+    //     parallelBoard.splice(player1Pick, 1, player1Pick);
+    //     if (score < bestScore) {
+    //       bestScore = score
+    //       bestScore = score
+    //       console.log("Maximizer BEST for " + player1Pick + " is " + bestScore);}
+    //     }
+    //     return bestScore
+    //   }
+    } 
