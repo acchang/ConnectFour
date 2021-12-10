@@ -266,17 +266,28 @@ const handleCellClick = (e) => {
 function aiPick() {
     let aiColIndex = Math.floor(Math.random() * 7)
     const aiCell = getFirstOpenCellForColumn(aiColIndex)
+    // I need a way to limit the aiColIndex if it picks an occupied column.
+    // that is if no open cell, pick again.
     aiCell.classList.add('red')
     checkStatusOfGame(aiCell)
     yellowIsNext = !yellowIsNext
     clearColorFromTop(aiColIndex);
-    // alert('red goes')
-    // find open cells and pick first, if row zero of that column is not occupied.
-
-
-    // get a list of options, pick it, then 
-    // target.classList.add('red')
 }
+
+// use this to get first open cell and if no open cell, re-roll
+// const getFirstOpenCellForColumn = (colIndex) => {
+//     const column = columns[colIndex];
+//     const columnWithoutTop = column.slice(0,6);
+    
+//     for (const cell of columnWithoutTop) {
+//         const classList = getClassListArray(cell);
+//         if (!classList.includes('yellow') && !classList.includes('red'))
+//         {return cell;
+//         }
+//     }
+//     return null
+// };
+
 
 
 
