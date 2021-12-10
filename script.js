@@ -241,6 +241,8 @@ const handleCellMouseOut = (e) => {
     clearColorFromTop(colIndex);
 };
 
+
+// this is what happens when clicking, on !yellowIsNext I want to automatically have red pick. 
 const handleCellClick = (e) => {
     if (!gameIsLive) return;
     const cell = e.target;
@@ -248,16 +250,35 @@ const handleCellClick = (e) => {
     const openCell = getFirstOpenCellForColumn(colIndex)
     if (!openCell) return
     openCell.classList.add(yellowIsNext ? 'yellow' : 'red')
-    // todo: check status of game
     checkStatusOfGame(openCell)
     yellowIsNext = !yellowIsNext
     clearColorFromTop(colIndex);
-    minimax()
+    aiPick()
+    // minimax()
     if (gameIsLive){
     const topCell = topCells[colIndex];
     topCell.classList.add(yellowIsNext ? 'yellow' : 'red')
     }
 }
+
+
+
+function aiPick() {
+    let aiColIndex = Math.floor(Math.random() * 7)
+    const aiCell = getFirstOpenCellForColumn(aiColIndex)
+    aiCell.classList.add('red')
+    checkStatusOfGame(aiCell)
+    yellowIsNext = !yellowIsNext
+    clearColorFromTop(aiColIndex);
+    // alert('red goes')
+    // find open cells and pick first, if row zero of that column is not occupied.
+
+
+    // get a list of options, pick it, then 
+    // target.classList.add('red')
+}
+
+
 
 
 // Add Event listeners
@@ -284,7 +305,7 @@ resetButton.addEventListener('click', () => {
 
 
 ///////////////////////////////////////////////////////////////---------------
-
+// I may need to build a red player AI first?
 
 function minimax() {
     if (!isNotWon && yellowIsNext) {
@@ -301,6 +322,7 @@ function minimax() {
     if (!yellowIsNext) {
     let bestScore = -10000; 
     // for each column, get first open cellforColumn, score it; if no score then move on
+    // do I need to build a parallel board or delete moves?
 
     //   var player2Choices = listParallelSpaces();
     //   for (var i = 0; i < player2Choices.length; i++) {
