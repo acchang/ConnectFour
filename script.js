@@ -272,7 +272,6 @@ function aiPick() {
       console.log(aiColIndex)
       aiCell = getFirstOpenCellForColumn(aiColIndex) // if pick is full, we should get back null to iterate again
       console.log(typeof(aiCell))
-      console.log(getClassListArray(aiCell))
     }
     aiCell.classList.add('red')
     checkStatusOfGame(aiCell)
