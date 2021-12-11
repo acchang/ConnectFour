@@ -246,12 +246,11 @@ const handleCellMouseOut = (e) => {
     clearColorFromTop(colIndex);
 };
 
-
-// this is what happens when clicking, on !yellowIsNext I want to automatically have red pick. 
 const handleCellClick = (e) => {
     if (!gameIsLive) return;
     const cell = e.target;
     const [rowIndex, colIndex] = getCellLocation(cell);
+    console.log(rowIndex)
     const openCell = getFirstOpenCellForColumn(colIndex)
     if (!openCell) return
     openCell.classList.add(yellowIsNext ? 'yellow' : 'red')
