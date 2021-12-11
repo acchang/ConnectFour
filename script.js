@@ -264,8 +264,16 @@ const handleCellClick = (e) => {
 
 
 function aiPick() {
-    let aiColIndex = Math.floor(Math.random() * 7)
-    const aiCell = getFirstOpenCellForColumn(aiColIndex)
+    let aiColIndex = Math.floor(Math.random() * 7);
+    console.log(aiColIndex);
+// if [aiCell, row 0] is open then get first open else 
+// need some kind of for loop, do while?
+    let isColumnFree = row0[aiColIndex];
+    const rowZeroClassList = getClassListArray(isColumnFree)
+    if (!rowZeroClassList.includes('yellow') && !rowZeroClassList.includes('red'))
+    {const aiCell = getFirstOpenCellForColumn(aiColIndex)}
+    //else need to loop
+
     // I need a way to limit the aiColIndex if it picks an occupied column.
     // that is if no open cell, pick again.
     aiCell.classList.add('red')
@@ -275,18 +283,18 @@ function aiPick() {
 }
 
 // use this to get first open cell and if no open cell, re-roll
-// const getFirstOpenCellForColumn = (colIndex) => {
-//     const column = columns[colIndex];
-//     const columnWithoutTop = column.slice(0,6);
-    
-//     for (const cell of columnWithoutTop) {
-//         const classList = getClassListArray(cell);
-//         if (!classList.includes('yellow') && !classList.includes('red'))
-//         {return cell;
-//         }
-//     }
-//     return null
-// };
+const getFirstOpenCellForColumn = (colIndex) => {
+    const column = columns[colIndex];
+    const columnWithoutTop = column.slice(0,6);
+    for (const cell of columnWithoutTop) {
+        const classList = getClassListArray(cell);
+        if (!classList.includes('yellow') && !classList.includes('red'))
+        {return cell;
+        }
+else PICK AGAIN (turn into function)
+    }
+    return null
+};
 
 
 
