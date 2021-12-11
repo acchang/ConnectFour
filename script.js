@@ -30,10 +30,6 @@ let yellowIsNext = true;
 let aiClassList
 let aiColClass
 
-// add tie and won conditions
-let isNotTie = true;
-let isNotWon = true;
-
 //functions
 const getClassListArray = (cell) => {
     const classList = cell.classList;
@@ -79,13 +75,10 @@ const getColorOfCell = (cell) => {
 
 const checkWinningCells = (cells) => { 
     if (cells.length < 4) return false;
-
         gameIsLive = false;
         for (const cell of cells){
             cell.classList.add('win');
         }
-        //add:
-        isNotWon = false
         statusSpan.textContent = `${yellowIsNext ? 'Yellow' : 'Red'} has won`
 
         return true
@@ -121,7 +114,10 @@ const checkStatusOfGame = (cell) => {
     }
 
    let isWinningCombo = checkWinningCells(winningCells);
-   if (isWinningCombo) return
+   if (isWinningCombo) {
+    gameIsLive = false;
+    return}
+
 
     //check vertically
     winningCells = [cell];
@@ -148,7 +144,10 @@ const checkStatusOfGame = (cell) => {
     }
 
    isWinningCombo = checkWinningCells(winningCells);
-   if (isWinningCombo) return
+   if (isWinningCombo) {
+    gameIsLive = false;
+    return}
+
 
     //check diagonally /
     winningCells = [cell];
@@ -178,7 +177,10 @@ const checkStatusOfGame = (cell) => {
     }
 
    isWinningCombo = checkWinningCells(winningCells);
-   if (isWinningCombo) return
+   if (isWinningCombo) {
+    gameIsLive = false;
+    return}
+
 
 
     //check diagonally \
@@ -209,7 +211,9 @@ const checkStatusOfGame = (cell) => {
     }
 
     isWinningCombo = checkWinningCells(winningCells);
-    if (isWinningCombo) return
+    if (isWinningCombo) {
+        gameIsLive = false;
+        return}
 
     //check to see if we have a tie
     const rowsWithoutTop = rows.slice(0,6);
@@ -217,12 +221,11 @@ const checkStatusOfGame = (cell) => {
         for (const cell of row){
             const classList = getClassListArray(cell)
             if (!classList.includes('yellow') && !classList.includes('red')){
-            // add tie condition
-                isNotTie = false;
             return
             }
         }
     }
+
     gameIsLive = false;
     statusSpan.textContent = 'Game is a Tie!'
 }
@@ -252,7 +255,7 @@ const handleCellClick = (e) => {
     const openCell = getFirstOpenCellForColumn(colIndex)
     if (!openCell) return
     openCell.classList.add(yellowIsNext ? 'yellow' : 'red')
-    checkStatusOfGame(openCell)
+    checkStatusOfGame(openCell);
     yellowIsNext = !yellowIsNext
     clearColorFromTop(colIndex);
     aiPick()
@@ -263,15 +266,12 @@ const handleCellClick = (e) => {
     }
 };
 
-
-
 function aiPick() {
     let aiCell = null;
     while (aiCell == null) {
       let aiColIndex = Math.floor(Math.random() * 7)
-      console.log(aiColIndex)
-      aiCell = getFirstOpenCellForColumn(aiColIndex) // if pick is full, we should get back null to iterate again
-      console.log(typeof(aiCell))
+      console.log('ACI is ' + aiColIndex)
+      aiCell = getFirstOpenCellForColumn(aiColIndex)
     }
     aiCell.classList.add('red')
     checkStatusOfGame(aiCell)
@@ -281,17 +281,6 @@ function aiPick() {
     let aiColIndex = parseInt(aiColClass[4], 10);
     clearColorFromTop(aiColIndex)
 }
-// when null it does not search again, it just ignores it and swaps to a red token
-// it never alerts when null
-// when 5 is occupied, red token, error: script.js:39 Uncaught TypeError: Cannot read properties of null 
-//    (reading 'classList')
-//     at getClassListArray (script.js:39)
-//     at aiPick (script.js:274)
-//     at HTMLDivElement.handleCellClick (script.js:258)
-// 
-// it's still an object when null
-
-
 
 // Add Event listeners
 for (const row of rows) {
