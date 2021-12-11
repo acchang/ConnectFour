@@ -27,6 +27,8 @@ const rows = [row0, row1, row2, row3, row4, row5, topRow];
 // variables
 let gameIsLive = true;
 let yellowIsNext = true;
+let aiClassList
+let aiColClass
 
 // add tie and won conditions
 let isNotTie = true;
@@ -259,44 +261,36 @@ const handleCellClick = (e) => {
     const topCell = topCells[colIndex];
     topCell.classList.add(yellowIsNext ? 'yellow' : 'red')
     }
-}
+};
 
 
 
 function aiPick() {
-    let aiColIndex = Math.floor(Math.random() * 7);
-    console.log(aiColIndex);
-// if [aiCell, row 0] is open then get first open else 
-// need some kind of for loop, do while?
-    let isColumnFree = row0[aiColIndex];
-    const rowZeroClassList = getClassListArray(isColumnFree)
-    if (!rowZeroClassList.includes('yellow') && !rowZeroClassList.includes('red'))
-    {const aiCell = getFirstOpenCellForColumn(aiColIndex)}
-    //else need to loop
-
-    // I need a way to limit the aiColIndex if it picks an occupied column.
-    // that is if no open cell, pick again.
+    let aiCell = null;
+    while (aiCell == null) {
+      let aiColIndex = Math.floor(Math.random() * 7)
+      console.log(aiColIndex)
+      aiCell = getFirstOpenCellForColumn(aiColIndex) // if pick is full, we should get back null to iterate again
+      console.log(typeof(aiCell))
+      console.log(getClassListArray(aiCell))
+    }
     aiCell.classList.add('red')
     checkStatusOfGame(aiCell)
     yellowIsNext = !yellowIsNext
-    clearColorFromTop(aiColIndex);
+    aiClassList = getClassListArray(aiCell)
+    aiColClass = aiClassList.find(className => className.includes('col'));
+    let aiColIndex = parseInt(aiColClass[4], 10);
+    clearColorFromTop(aiColIndex)
 }
-
-// use this to get first open cell and if no open cell, re-roll
-const getFirstOpenCellForColumn = (colIndex) => {
-    const column = columns[colIndex];
-    const columnWithoutTop = column.slice(0,6);
-    for (const cell of columnWithoutTop) {
-        const classList = getClassListArray(cell);
-        if (!classList.includes('yellow') && !classList.includes('red'))
-        {return cell;
-        }
-else PICK AGAIN (turn into function)
-    }
-    return null
-};
-
-
+// when null it does not search again, it just ignores it and swaps to a red token
+// it never alerts when null
+// when 5 is occupied, red token, error: script.js:39 Uncaught TypeError: Cannot read properties of null 
+//    (reading 'classList')
+//     at getClassListArray (script.js:39)
+//     at aiPick (script.js:274)
+//     at HTMLDivElement.handleCellClick (script.js:258)
+// 
+// it's still an object when null
 
 
 
