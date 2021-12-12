@@ -80,7 +80,6 @@ const checkWinningCells = (cells) => {
             cell.classList.add('win');
         }
         statusSpan.textContent = `${yellowIsNext ? 'Yellow' : 'Red'} has won`
-
         return true
 };
 
@@ -250,11 +249,14 @@ const handleCellClick = (e) => {
     if (!gameIsLive) return;
     const cell = e.target;
     const [rowIndex, colIndex] = getCellLocation(cell);
-    console.log(rowIndex)
     const openCell = getFirstOpenCellForColumn(colIndex)
     if (!openCell) return
     openCell.classList.add(yellowIsNext ? 'yellow' : 'red')
     checkStatusOfGame(openCell);
+
+    //add a if-return stmt here to prevent it from playing red
+    if (gameIsLive == false) {return};
+
     yellowIsNext = !yellowIsNext
     clearColorFromTop(colIndex);
     aiPick()
