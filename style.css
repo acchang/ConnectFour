@@ -22,9 +22,9 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-    height: 700px;
-    margin: 10px 0 25px;
-    width: 700px;
+    height: 350px;
+    margin: 5px 0 25px;
+    width: 350px;
   }
   
   .cell {
