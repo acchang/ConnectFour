@@ -27,6 +27,7 @@ const rows = [row0, row1, row2, row3, row4, row5, topRow];
 // variables
 let gameIsLive = true;
 let yellowIsNext = true;
+let gameTied = false;
 let aiClassList
 let aiColClass
 
@@ -225,6 +226,7 @@ const checkStatusOfGame = (cell) => {
         }
     }
 
+    gameTied = true;
     gameIsLive = false;
     statusSpan.textContent = 'Game is a Tie!'
 }
@@ -271,7 +273,6 @@ function aiPick() {
     let aiCell = null;
     while (aiCell == null) {
       let aiColIndex = Math.floor(Math.random() * 7)
-      console.log('ACI is ' + aiColIndex)
       aiCell = getFirstOpenCellForColumn(aiColIndex)
     }
     aiCell.classList.add('red')
@@ -306,15 +307,14 @@ resetButton.addEventListener('click', () => {
 });
 
 
-///////////////////////////////////////////////////////////////---------------
-// I may need to build a red player AI first?
+//////////////////////////////////////////////////////////////
 
 function minimax() {
-    if (!isNotWon && yellowIsNext) {
+    if (!GameIsLive && !gameTied && yellowIsNext) {
       return -10
-    } else if (!isNotWon && !yellowIsNext) {
+    } else if (!GameIsLive && !gameTied && !yellowIsNext) {
       return 10
-    } else if (!isNotTie) {
+    } else if (!GameIsLive && GameTied) {
       return 2
     }
 
@@ -323,27 +323,31 @@ function minimax() {
 
     if (!yellowIsNext) {
     let bestScore = -10000; 
-    // for each column, get first open cellforColumn, score it; if no score then move on
-    // do I need to build a parallel board or delete moves?
+// place token then score, if not go to other side, repeat
+
+    let aiCell = null;
+    while (aiCell == null) {
+        let aiColIndex = Math.floor(Math.random() * 7)
+        aiCell = getFirstOpenCellForColumn(aiColIndex)
+        }
+    aiCell.classList.add('red')
+    checkStatusOfGame(aiCell)
 
     //   var player2Choices = listParallelSpaces();
     //   for (var i = 0; i < player2Choices.length; i++) {
     //     playerOneTurn = false
     //     var player2Pick = player2Choices[i];
-    //     console.log("Minimizer " + checkClass() + " picks " + player2Pick + " from " + player2Choices);
     //     parallelBoard.splice(player2Pick, 1,TWO_CLASS);
     //     var score = minimax(parallelBoard)
-    //     console.log("Minimizer " +  checkClass() +  " picked " + player2Pick + ", scores " + score)
     //     parallelBoard.splice(player2Pick, 1, player2Pick);
     //     if (score > bestScore) {
     //       bestScore = score
-    //       console.log("Minimizer BEST for " + player2Pick + " is " + bestScore);}
     //     }
     return bestScore
     }
   
-    //  else {
-    //   let bestScore = 100000; 
+     else {
+      let bestScore = 100000; 
     //   var player1Choices = listParallelSpaces();
   
     //   for (var i = 0; i < player1Choices.length; i++) {
