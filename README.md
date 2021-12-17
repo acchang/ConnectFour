@@ -1,6 +1,8 @@
 # ConnectFour
 ConnectFour attempt
 
+12/16 - ok, reached the end of the path here. Minimax is not possible like this, I need to build it in another way. I'm going to review Tic Tac Toe, and maybe impose minimax with levels on a new revision.
+
 12/14 - I'm still having problems with imposing minimax here. I might not be able to do it since checking for a winner involves manipulating the DOM, and that would be a huge amount of possibilites for Connect Four. 
 
 It might be better if I went back to Tic Tac Toe, learned that, and learned how to build Connect Fout via primitives, and then used minimax with the primitives.
